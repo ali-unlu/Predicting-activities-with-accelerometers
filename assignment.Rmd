@@ -1,0 +1,217 @@
+---
+title: "Week 4 Peer review assignment"
+author: "Ali Unlu"
+date: "7/28/2021"
+output: 
+  html_document: 
+    keep_md: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Background
+
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: <http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har> (see the section on the Weight Lifting Exercise Dataset).
+
+# Data
+
+The training data for this project are available here:
+
+<https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv>
+
+The test data are available here:  
+
+<https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv>
+
+# Research Questions
+
+One thing that people regularly do is quantify how  much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants.
+
+**The goal of this project is to predict the manner in which they did the exercise.**         
+- This is the "classe" variable in the training set.    
+- You may use any of the other variables to predict with.    
+- You should create a report describing how you built your model, how you used cross validation, what you think the expected out of sample error is, and why you made the choices you did.    
+- You will also use your prediction model to predict 20 different test cases.          
+
+ 
+
+
+# Data preparation
+
+```{r warning=FALSE, message=FALSE, error=FALSE}
+
+# required package
+library(tidyverse)
+library(caret)
+library(mlbench)
+library(MASS)
+library(randomForest)
+
+```
+
+```{r echo=TRUE}
+
+# data
+train <- as_tibble(read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv"))
+test <- as_tibble(read.csv("https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv"))
+
+#str(train$classe)
+# convert outcome variable from character to a factor
+train$classe <- as.factor(train$classe) 
+
+```
+
+#### 1. Data cleaning  
+
+Since the data has so many variables (160), we can narrow it down. First of all, we can remve variables, which are having nearly zero variance. nearZeroVar() is a function to remove predictors that are sparse and highly unbalanced.   
+
+```{r echo=TRUE}
+
+Zero <- nearZeroVar(train)
+
+train1 <- train[,-Zero]
+test1 <- test[,-Zero]
+
+ dim(train1)
+
+```
+
+We have now 100 variables but when we checked the data, there are so much missing values in some variables. Another approach might be removing variables which has more than %5 NAs. 
+
+```{r echo=TRUE}
+# Removing Variables which are having NA values. Our threshhold is 95%.
+NAs <- sapply(train1, function(x) mean(is.na(x))) > 0.95
+
+train2 <- train1[,NAs == FALSE]
+test2 <- test1[,NAs == FALSE]
+dim(train2);dim(test2)
+```
+
+We have now 59 variables but when checking closely the rest of the variables, the first seven of them do not seem to be relevant to our analysis. We finalize data preparation by removing those variables from the set and we will start analyzing the rest of the 52 variables.  
+
+```{r echo=TRUE}
+# remove the first 7 variables
+clean_train_data <- train2[,-c(1:7)]
+clean_test_data <- test2[,-c(1:7)]
+
+# dim(clean_train_data);dim(clean_test_data)
+
+```
+
+#### 2.  Data Partitioning 
+
+For the analysis, we need to split the data into two parts. There are different approaches in the field but we follow the course recommendation (%60 vs %40). SO, the training set will consist 60% of the total data while the test set will have 40% of the total data. 
+
+```{r echo=TRUE}
+
+inTrainIndex <- createDataPartition(clean_train_data$classe, p=0.60)[[1]]
+ttrain <- clean_train_data[inTrainIndex,]
+ctrain<- clean_train_data[-inTrainIndex,]
+dim(ctrain);dim(ttrain)
+
+```
+
+As seen above, there are 7846 observations in the test set and 11776 in the training set. 
+
+# Model testing 
+
+To respond the project question, we can use different models to test the accuracy of the model they provide. 
+
+### 1. Decision Tree Model
+
+```{r echo=TRUE}
+TREE <- train(classe ~ ., method = "rpart", data = ttrain)
+
+TREE_pre <- predict(TREE, ctrain)
+confusionMatrix(ctrain$classe,TREE_pre)
+
+```
+
+The accuracy rate of the Decision Tree Model is 0.6323, which is lower then our expectations. 
+
+### 2. Linear Discriminant Analysis ("lda") Model 
+
+```{r echo=TRUE, warning=FALSE}
+
+
+# applying ld function from the MASS package
+predictors <- ttrain[1:51]
+response <- ttrain$classe
+
+ld <- lda(predictors, response, CV=TRUE)
+ct <- table(response, ld$class)
+diag(prop.table(ct,1))
+
+# Applying caret::confusionMatrix()
+control <- trainControl(method="LGOCV",number=20)
+metric<-"Accuracy"
+set.seed(2000)
+fit.lda <- train(predictors,response,method="lda",metric=metric,trControl=control)
+confusionMatrix(fit.lda)
+
+# Getting confusionMatrix() data in a friendly format
+xtab <- confusionMatrix(response, predict(fit.lda))
+as.matrix(xtab)
+```
+
+### 3. Random Forest Model
+
+```{r echo=TRUE}
+
+RF <- randomForest(classe~., data=ttrain, type="response")
+
+# Perform prediction
+RF_pre <- predict(RF, newdata= ctrain, type = "class")
+
+# Following confusion matrix shows the errors of the prediction algorithm.
+confusionMatrix(RF_pre, ctrain$classe)
+
+```
+
+It seems that Randon Forest Model provides the best accuracy level, which is  0.9935.   
+Finally, we can look at the most important variable that have higher scores. 
+
+```{r echo=TRUE}
+# Calculate the variable importance using the varImp function in the caret package.
+varImp(RF) 
+
+# orderin the variable
+vi <- RF$importance
+order(vi, decreasing=T)
+
+# What is the order of variable importance?
+print(RF$importance)
+
+
+```
+
+# Conclusion
+
+After checking the Overall Statistics data, the Random Forest model has definitely more accuracy than Decision Tree and LDA models. Hence we will be selecting Random Forest model for final prediction from our data. .
+
+# Course Project Prediction Quiz Portion
+
+Apply your machine learning algorithm to the 20 test cases available in the test data above and submit your predictions in appropriate format to the Course Project Prediction Quiz for automated grading. 
+
+```{r, echo=FALSE}
+
+# Perform prediction
+predictSubmission <- predict(RF, clean_test_data , type="class")
+predictSubmission
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
