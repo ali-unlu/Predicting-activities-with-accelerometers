@@ -1,11 +1,9 @@
 ---
-title: "Week 4 Peer review assignment"
-author: "Ali Unlu"
-date: "7/28/2021"
 output: 
   html_document: 
     keep_md: yes
 ---
+
 
 
 
@@ -150,34 +148,34 @@ confusionMatrix(ctrain$classe,TREE_pre)
 ## 
 ##           Reference
 ## Prediction    A    B    C    D    E
-##          A 2038   34  112   27   21
-##          B  668  498  294   58    0
-##          C  645   40  528  155    0
-##          D  583  232  147  324    0
-##          E  326  285  334   76  421
+##          A 1708   48  422   52    2
+##          B  394  680  319  125    0
+##          C   63   54 1080  158   13
+##          D  140   84  676  386    0
+##          E   80  334  462    7  559
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.4855          
-##                  95% CI : (0.4744, 0.4966)
-##     No Information Rate : 0.543           
-##     P-Value [Acc > NIR] : 1               
+##                Accuracy : 0.5625          
+##                  95% CI : (0.5514, 0.5735)
+##     No Information Rate : 0.3771          
+##     P-Value [Acc > NIR] : < 2.2e-16       
 ##                                           
-##                   Kappa : 0.3261          
+##                   Kappa : 0.4458          
 ##                                           
-##  Mcnemar's Test P-Value : <2e-16          
+##  Mcnemar's Test P-Value : < 2.2e-16       
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            0.4784  0.45730   0.3731  0.50625  0.95249
-## Specificity            0.9459  0.84905   0.8694  0.86650  0.86210
-## Pos Pred Value         0.9131  0.32806   0.3860  0.25194  0.29196
-## Neg Pred Value         0.6042  0.90661   0.8631  0.95183  0.99672
-## Prevalence             0.5430  0.13880   0.1803  0.08157  0.05633
-## Detection Rate         0.2598  0.06347   0.0673  0.04129  0.05366
+## Sensitivity            0.7161  0.56667   0.3650  0.53022  0.97387
+## Specificity            0.9040  0.87391   0.9411  0.87356  0.87858
+## Pos Pred Value         0.7652  0.44796   0.7895  0.30016  0.38766
+## Neg Pred Value         0.8794  0.91783   0.7099  0.94787  0.99766
+## Prevalence             0.3040  0.15294   0.3771  0.09279  0.07316
+## Detection Rate         0.2177  0.08667   0.1376  0.04920  0.07125
 ## Detection Prevalence   0.2845  0.19347   0.1744  0.16391  0.18379
-## Balanced Accuracy      0.7122  0.65317   0.6213  0.68638  0.90730
+## Balanced Accuracy      0.8101  0.72029   0.6530  0.70189  0.92622
 ```
 
 The accuracy rate of the Decision Tree Model is 0.6323, which is lower then our expectations. 
@@ -197,7 +195,7 @@ diag(prop.table(ct,1))
 
 ```
 ##         A         B         C         D         E 
-## 0.8163082 0.6353664 0.6577410 0.7056995 0.5806005
+## 0.8145161 0.6406319 0.6553067 0.7005181 0.5690531
 ```
 
 ```r
@@ -216,13 +214,13 @@ confusionMatrix(fit.lda)
 ##  
 ##           Reference
 ## Prediction    A    B    C    D    E
-##          A 23.1  2.9  1.8  1.0  0.7
-##          B  0.8 12.3  1.6  1.1  3.1
-##          C  2.2  2.5 11.5  1.8  1.8
-##          D  2.3  0.8  2.1 11.5  1.9
-##          E  0.1  0.8  0.4  1.0 10.8
+##          A 23.2  2.7  1.7  0.9  0.8
+##          B  0.7 12.4  1.6  1.1  3.2
+##          C  2.3  2.4 11.5  1.9  1.8
+##          D  2.1  0.9  2.2 11.4  2.0
+##          E  0.1  0.9  0.4  1.0 10.6
 ##                             
-##  Accuracy (average) : 0.6927
+##  Accuracy (average) : 0.6912
 ```
 
 ```r
@@ -233,11 +231,11 @@ as.matrix(xtab)
 
 ```
 ##      A    B    C    D    E
-## A 2741   88  241  267   11
-## B  337 1459  294   89  100
-## C  214  187 1359  250   44
-## D  110  113  224 1367  116
-## E   90  357  219  232 1267
+## A 2740   84  269  246    9
+## B  328 1469  285   98   99
+## C  201  184 1356  266   47
+## D  108  113  229 1360  120
+## E   90  376  215  239 1245
 ```
 
 ### 3. Random Forest Model
@@ -258,34 +256,34 @@ confusionMatrix(RF_pre, ctrain$classe)
 ## 
 ##           Reference
 ## Prediction    A    B    C    D    E
-##          A 2228   12    0    0    0
-##          B    3 1503   10    0    0
-##          C    0    3 1352   18    2
-##          D    0    0    6 1268    3
-##          E    1    0    0    0 1437
+##          A 2229   13    0    0    0
+##          B    2 1504   22    0    0
+##          C    0    1 1345   19    0
+##          D    1    0    1 1266    5
+##          E    0    0    0    1 1437
 ## 
 ## Overall Statistics
 ##                                           
-##                Accuracy : 0.9926          
-##                  95% CI : (0.9905, 0.9944)
+##                Accuracy : 0.9917          
+##                  95% CI : (0.9895, 0.9936)
 ##     No Information Rate : 0.2845          
 ##     P-Value [Acc > NIR] : < 2.2e-16       
 ##                                           
-##                   Kappa : 0.9906          
+##                   Kappa : 0.9895          
 ##                                           
 ##  Mcnemar's Test P-Value : NA              
 ## 
 ## Statistics by Class:
 ## 
 ##                      Class: A Class: B Class: C Class: D Class: E
-## Sensitivity            0.9982   0.9901   0.9883   0.9860   0.9965
-## Specificity            0.9979   0.9979   0.9964   0.9986   0.9998
-## Pos Pred Value         0.9946   0.9914   0.9833   0.9930   0.9993
-## Neg Pred Value         0.9993   0.9976   0.9975   0.9973   0.9992
+## Sensitivity            0.9987   0.9908   0.9832   0.9844   0.9965
+## Specificity            0.9977   0.9962   0.9969   0.9989   0.9998
+## Pos Pred Value         0.9942   0.9843   0.9853   0.9945   0.9993
+## Neg Pred Value         0.9995   0.9978   0.9965   0.9970   0.9992
 ## Prevalence             0.2845   0.1935   0.1744   0.1639   0.1838
-## Detection Rate         0.2840   0.1916   0.1723   0.1616   0.1832
-## Detection Prevalence   0.2855   0.1932   0.1752   0.1628   0.1833
-## Balanced Accuracy      0.9980   0.9940   0.9924   0.9923   0.9982
+## Detection Rate         0.2841   0.1917   0.1714   0.1614   0.1832
+## Detection Prevalence   0.2858   0.1947   0.1740   0.1622   0.1833
+## Balanced Accuracy      0.9982   0.9935   0.9900   0.9917   0.9982
 ```
 
 It seems that Randon Forest Model provides the best accuracy level, which is  0.9935.   
@@ -299,57 +297,57 @@ varImp(RF)
 
 ```
 ##                        Overall
-## pitch_belt           454.30576
-## yaw_belt             621.53272
-## total_accel_belt     162.66808
-## gyros_belt_x          69.03275
-## gyros_belt_y          81.66229
-## gyros_belt_z         252.65476
-## accel_belt_x          79.80673
-## accel_belt_y          97.40588
-## accel_belt_z         310.71109
-## magnet_belt_x        172.32078
-## magnet_belt_y        294.50868
-## magnet_belt_z        263.45677
-## roll_arm             191.01957
-## pitch_arm            110.65702
-## yaw_arm              151.82747
-## total_accel_arm       66.48443
-## gyros_arm_x           84.75751
-## gyros_arm_y           91.20734
-## gyros_arm_z           41.94285
-## accel_arm_x          154.06082
-## accel_arm_y          106.41943
-## accel_arm_z           90.14518
-## magnet_arm_x         152.39999
-## magnet_arm_y         151.98838
-## magnet_arm_z         125.18032
-## roll_dumbbell        259.99740
-## pitch_dumbbell       118.85687
-## yaw_dumbbell         167.29442
-## total_accel_dumbbell 171.88520
-## gyros_dumbbell_x      87.26448
-## gyros_dumbbell_y     159.01356
-## gyros_dumbbell_z      53.60439
-## accel_dumbbell_x     151.76618
-## accel_dumbbell_y     268.30690
-## accel_dumbbell_z     213.20118
-## magnet_dumbbell_x    306.74306
-## magnet_dumbbell_y    410.00011
-## magnet_dumbbell_z    486.19803
-## roll_forearm         360.60551
-## pitch_forearm        469.14258
-## yaw_forearm          102.87463
-## total_accel_forearm   71.06309
-## gyros_forearm_x       51.46594
-## gyros_forearm_y       81.89341
-## gyros_forearm_z       54.97879
-## accel_forearm_x      188.99495
-## accel_forearm_y       92.75037
-## accel_forearm_z      152.09483
-## magnet_forearm_x     140.49018
-## magnet_forearm_y     137.19401
-## magnet_forearm_z     173.88956
+## pitch_belt           456.96372
+## yaw_belt             636.40220
+## total_accel_belt     183.31248
+## gyros_belt_x          70.35806
+## gyros_belt_y          83.79136
+## gyros_belt_z         238.70693
+## accel_belt_x          83.02730
+## accel_belt_y          91.22789
+## accel_belt_z         298.63460
+## magnet_belt_x        161.52058
+## magnet_belt_y        285.06045
+## magnet_belt_z        301.21026
+## roll_arm             202.57622
+## pitch_arm            106.76387
+## yaw_arm              146.10777
+## total_accel_arm       64.43328
+## gyros_arm_x           88.47016
+## gyros_arm_y           91.35519
+## gyros_arm_z           40.08341
+## accel_arm_x          138.35764
+## accel_arm_y          100.90650
+## accel_arm_z           86.12269
+## magnet_arm_x         166.34737
+## magnet_arm_y         150.58798
+## magnet_arm_z         117.28742
+## roll_dumbbell        246.22384
+## pitch_dumbbell       115.06552
+## yaw_dumbbell         169.28583
+## total_accel_dumbbell 164.95140
+## gyros_dumbbell_x      86.11187
+## gyros_dumbbell_y     169.54116
+## gyros_dumbbell_z      58.46280
+## accel_dumbbell_x     157.19651
+## accel_dumbbell_y     251.75775
+## accel_dumbbell_z     205.21409
+## magnet_dumbbell_x    311.27009
+## magnet_dumbbell_y    418.20516
+## magnet_dumbbell_z    471.71122
+## roll_forearm         357.82708
+## pitch_forearm        471.89681
+## yaw_forearm          103.22639
+## total_accel_forearm   80.76246
+## gyros_forearm_x       50.31034
+## gyros_forearm_y       80.85274
+## gyros_forearm_z       52.34506
+## accel_forearm_x      205.98689
+## accel_forearm_y       87.80001
+## accel_forearm_z      158.17102
+## magnet_forearm_x     132.31484
+## magnet_forearm_y     136.38166
+## magnet_forearm_z     177.17234
 ```
 
 ```r
@@ -359,8 +357,8 @@ order(vi, decreasing=T)
 ```
 
 ```
-##  [1]  2 38 40  1 37 39  9 36 11 34 12 26  6 35 13 46 51 10 29 28  3 31 20 23 48
-## [26] 24 15 33 49 50 25 27 14 21 41  8 47 18 22 30 17 44  5  7 42  4 16 45 32 43
+##  [1]  2 40 38  1 37 39 36 12  9 11 34 26  6 46 35 13  3 51 31 28 23 29 10 48 33
+## [26] 24 15 20 50 49 25 27 14 41 21 18  8 17 47 22 30  5  7 44 42  4 16 32 45 43
 ## [51] 19
 ```
 
@@ -371,73 +369,63 @@ print(RF$importance)
 
 ```
 ##                      MeanDecreaseGini
-## pitch_belt                  454.30576
-## yaw_belt                    621.53272
-## total_accel_belt            162.66808
-## gyros_belt_x                 69.03275
-## gyros_belt_y                 81.66229
-## gyros_belt_z                252.65476
-## accel_belt_x                 79.80673
-## accel_belt_y                 97.40588
-## accel_belt_z                310.71109
-## magnet_belt_x               172.32078
-## magnet_belt_y               294.50868
-## magnet_belt_z               263.45677
-## roll_arm                    191.01957
-## pitch_arm                   110.65702
-## yaw_arm                     151.82747
-## total_accel_arm              66.48443
-## gyros_arm_x                  84.75751
-## gyros_arm_y                  91.20734
-## gyros_arm_z                  41.94285
-## accel_arm_x                 154.06082
-## accel_arm_y                 106.41943
-## accel_arm_z                  90.14518
-## magnet_arm_x                152.39999
-## magnet_arm_y                151.98838
-## magnet_arm_z                125.18032
-## roll_dumbbell               259.99740
-## pitch_dumbbell              118.85687
-## yaw_dumbbell                167.29442
-## total_accel_dumbbell        171.88520
-## gyros_dumbbell_x             87.26448
-## gyros_dumbbell_y            159.01356
-## gyros_dumbbell_z             53.60439
-## accel_dumbbell_x            151.76618
-## accel_dumbbell_y            268.30690
-## accel_dumbbell_z            213.20118
-## magnet_dumbbell_x           306.74306
-## magnet_dumbbell_y           410.00011
-## magnet_dumbbell_z           486.19803
-## roll_forearm                360.60551
-## pitch_forearm               469.14258
-## yaw_forearm                 102.87463
-## total_accel_forearm          71.06309
-## gyros_forearm_x              51.46594
-## gyros_forearm_y              81.89341
-## gyros_forearm_z              54.97879
-## accel_forearm_x             188.99495
-## accel_forearm_y              92.75037
-## accel_forearm_z             152.09483
-## magnet_forearm_x            140.49018
-## magnet_forearm_y            137.19401
-## magnet_forearm_z            173.88956
+## pitch_belt                  456.96372
+## yaw_belt                    636.40220
+## total_accel_belt            183.31248
+## gyros_belt_x                 70.35806
+## gyros_belt_y                 83.79136
+## gyros_belt_z                238.70693
+## accel_belt_x                 83.02730
+## accel_belt_y                 91.22789
+## accel_belt_z                298.63460
+## magnet_belt_x               161.52058
+## magnet_belt_y               285.06045
+## magnet_belt_z               301.21026
+## roll_arm                    202.57622
+## pitch_arm                   106.76387
+## yaw_arm                     146.10777
+## total_accel_arm              64.43328
+## gyros_arm_x                  88.47016
+## gyros_arm_y                  91.35519
+## gyros_arm_z                  40.08341
+## accel_arm_x                 138.35764
+## accel_arm_y                 100.90650
+## accel_arm_z                  86.12269
+## magnet_arm_x                166.34737
+## magnet_arm_y                150.58798
+## magnet_arm_z                117.28742
+## roll_dumbbell               246.22384
+## pitch_dumbbell              115.06552
+## yaw_dumbbell                169.28583
+## total_accel_dumbbell        164.95140
+## gyros_dumbbell_x             86.11187
+## gyros_dumbbell_y            169.54116
+## gyros_dumbbell_z             58.46280
+## accel_dumbbell_x            157.19651
+## accel_dumbbell_y            251.75775
+## accel_dumbbell_z            205.21409
+## magnet_dumbbell_x           311.27009
+## magnet_dumbbell_y           418.20516
+## magnet_dumbbell_z           471.71122
+## roll_forearm                357.82708
+## pitch_forearm               471.89681
+## yaw_forearm                 103.22639
+## total_accel_forearm          80.76246
+## gyros_forearm_x              50.31034
+## gyros_forearm_y              80.85274
+## gyros_forearm_z              52.34506
+## accel_forearm_x             205.98689
+## accel_forearm_y              87.80001
+## accel_forearm_z             158.17102
+## magnet_forearm_x            132.31484
+## magnet_forearm_y            136.38166
+## magnet_forearm_z            177.17234
 ```
 
 # Conclusion
 
 After checking the Overall Statistics data, the Random Forest model has definitely more accuracy than Decision Tree and LDA models. Hence we will be selecting Random Forest model for final prediction from our data. .
 
-# Course Project Prediction Quiz Portion
-
-Apply your machine learning algorithm to the 20 test cases available in the test data above and submit your predictions in appropriate format to the Course Project Prediction Quiz for automated grading. 
-
-
-```
-##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 
-##  B  A  B  A  A  E  D  B  A  A  B  C  B  A  E  E  A  B  B  B 
-## Levels: A B C D E
-```
 
 
 

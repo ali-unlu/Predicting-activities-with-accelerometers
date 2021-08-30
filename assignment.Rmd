@@ -1,11 +1,9 @@
 ---
-title: "Week 4 Peer review assignment"
-author: "Ali Unlu"
-date: "7/28/2021"
 output: 
   html_document: 
     keep_md: yes
 ---
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
@@ -192,18 +190,6 @@ print(RF$importance)
 
 After checking the Overall Statistics data, the Random Forest model has definitely more accuracy than Decision Tree and LDA models. Hence we will be selecting Random Forest model for final prediction from our data. .
 
-# Course Project Prediction Quiz Portion
-
-Apply your machine learning algorithm to the 20 test cases available in the test data above and submit your predictions in appropriate format to the Course Project Prediction Quiz for automated grading. 
-
-```{r, echo=FALSE}
-
-# Perform prediction
-predictSubmission <- predict(RF, clean_test_data , type="class")
-predictSubmission
-
-
-```
 
 
 
